@@ -122,10 +122,15 @@ Process with **PEDAC:**
 <summary>Algorithm (steps)</summary>
 
   1. Take my time to read and reasoning, resuming the key points, create the mental model, examples, input, output, requirements, rules and ask for questions(1hr aprox).
-  2. Choose the gems I need and create a new rails project.
+  2. Choose the gems I need and create a new rails project:
+  `rails new okrs_evolgo -T -d postgresql`
+    -T `--database=postgresql` or `-d postgresql`
+    -T (don't include minitest)
+    --database=postgresql (use postgresql database)
   3. Add and modify this Readme file
-  4. Add/set Gems I want to use:
+  4. Add/set Gems/DB I want to use:
     Todo's:
+      - [x]  pg (PostgreSQL) =>  https://github.com/ged/ruby-pg
       - [x] reek => https://github.com/troessner/reek
       - [x] rspec-rails => https://github.com/rspec/rspec-rails
       - [x] rubocop => https://github.com/rubocop/rubocop
@@ -137,7 +142,7 @@ Process with **PEDAC:**
       - [x] shoulda-matchers => https://github.com/thoughtbot/shoulda-matchers
       Add Rubocop autogen config*
       `rubocop --auto-gen-config`
-  5. Add the model with respective columns/parameters and defin asociations.
+  5. Define the model with respective columns/parameters and associations.
       - User has goals
       - Goals belong to User
       - User can Create a Key-Result
@@ -145,19 +150,28 @@ Process with **PEDAC:**
       - Goal has many Key-Results
 
       User params
-        - owner
+        - owner *
       Goal params
-        - title
+        - user_id (foreign_key) *
+        - title *
         - star_date
         - end_date
-        - user_id *foreign_key,
       KeyResult params
-        - goal_id * foreign_key
-        - title
-        - status
+        - goal_id (foreign_key) *
+        - user_id (foreign_key) *
+        - title *
+        - status (default zero to change it 'not started' via key-value)*
+  6. Create models/associations via TDD
+    `rails g model User owner:string`
+    `rails g model Goal user:references title:string start_date:datetime end_date:datetime`
+    `rails g model KeyResult user:references goal:references title:string status:float`
+    Adding , :default => 0 in (status)
+    **( I decided to use float instead integer for future percentage)
+  7. Create validations via TDD.
+
+
 </details>
 <br>
-
 <details>
 <summary> Code (Algorithm implementation):</details>
 
