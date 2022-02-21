@@ -1,0 +1,13 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'bin/**/*'
+
+RSpec/ImplicitExpect:
+  Enabled: false

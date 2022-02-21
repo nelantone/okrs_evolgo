@@ -48,6 +48,23 @@ Process with **PEDAC:**
   - **Questions:**
     - Probably is as easy as possible solution, in any case I think is good to ask if the user should be created with a password and we should add some Token-based Authentication.
     For now I will start it whithout as is not specified and I think it will be ok to implemented later on.
+
+    - About the model associations.
+      In my understanding:
+      - User has many goals
+      - Goals belong to user
+      - User can Create a Key-Result
+      - Key-Result belongs to Goal
+      - Goal has many Key-Results
+        User can Create a Key-Result **But(implicitly in my logic) it should be though Goal, right?
+        So it should be:
+        We create a User, the User Create a Goals, from a Goal we create Key-Objectives
+        So, in my understanding, the user should assign the goal id to create a key-result. Do I am missing something?
+
+  Answer:
+  1. User authentication is not required. But, it would be a great addition. You can implement any approach that you feel better.
+  2. You are right about the model association.
+
 </details>
 <br>
 
@@ -110,19 +127,34 @@ Process with **PEDAC:**
   4. Add/set Gems I want to use:
     Todo's:
       - [x] reek => https://github.com/troessner/reek
-      - [] rspec-rails => https://github.com/rspec/rspec-rails
-      - [] rubocop => https://github.com/rubocop/rubocop
-      - [] rubocop-rails => https://github.com/rubocop/rubocop-rails
-      - [] rubocop-rspec => https://github.com/rubocop/rubocop-rspec
-      - [] guard => https://github.com/guard/guard
-      - [] guard-rspec => https://github.com/guard/guard-rspec
-      - [] guard-rubocop => https://github.com/guard/guard-rubocop
-      - [] shoulda-matchers => https://github.com/thoughtbot/shoulda-matchers
-  5. Add the model with respective columns/parameters.
-    - add belongs to and has many.
-    - add subject reference
-    - add model validations
+      - [x] rspec-rails => https://github.com/rspec/rspec-rails
+      - [x] rubocop => https://github.com/rubocop/rubocop
+      - [x] rubocop-rails => https://github.com/rubocop/rubocop-rails
+      - [x] rubocop-rspec => https://github.com/rubocop/rubocop-rspec
+      - [x] guard => https://github.com/guard/guard
+      - [x] guard-rspec => https://github.com/guard/guard-rspec
+      - [x] guard-rubocop => https://github.com/guard/guard-rubocop
+      - [x] shoulda-matchers => https://github.com/thoughtbot/shoulda-matchers
+      Add Rubocop autogen config*
+      `rubocop --auto-gen-config`
+  5. Add the model with respective columns/parameters and defin asociations.
+      - User has goals
+      - Goals belong to User
+      - User can Create a Key-Result
+      - Key-Result belongs to Goal
+      - Goal has many Key-Results
 
+      User params
+        - owner
+      Goal params
+        - title
+        - star_date
+        - end_date
+        - user_id *foreign_key,
+      KeyResult params
+        - goal_id * foreign_key
+        - title
+        - status
 </details>
 <br>
 
