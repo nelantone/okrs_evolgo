@@ -70,6 +70,7 @@ Process with **PEDAC:**
 
 <details>–
 <summary>Examples/test cases:</summary>
+
 - Story 1:
   As a user I want to create a Goal.
   Acceptance criteria:
@@ -150,7 +151,7 @@ Process with **PEDAC:**
       - Goal has many Key-Results
 
       User params
-        - owner *
+        - owner *(*=presence true)
       Goal params
         - user_id (foreign_key) *
         - title *
@@ -167,8 +168,12 @@ Process with **PEDAC:**
     `rails g model KeyResult user:references goal:references title:string status:float`
     Adding , :default => 0 in (status)
     **( I decided to use float instead integer for future percentage)
-  7. Create validations via TDD.
+  7. Create validations via TDD, make all tests green and fix rubocop offensess.
 
+  8. Add the specific controllers
+    `rails g controller Users`
+    `rails g controller Goals`
+    `rails g controller KeyResults`
 
 </details>
 <br>

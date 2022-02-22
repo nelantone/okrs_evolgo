@@ -1,0 +1,2 @@
+class KeyResultsController < ApplicationController
+end
