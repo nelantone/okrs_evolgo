@@ -176,9 +176,12 @@ Process with **PEDAC:**
     `rails g controller KeyResults`
 
   9. Add example cases as tests, and make it all green adding specific methods and testing the model.
-    - ** pending: fix rubocop offenses from instance variables in RSpec
+    - fix rubocop offenses from instance variables in RSpec
 
-  10. ** Add the RESTful routes and controller actions
+  10. Add the RESTful routes and controller actions:
+    - Story 1
+    - Story 2
+    - Story 3 ** Pending!
 
   11. ** Add jwt authentication for user?
     ``
