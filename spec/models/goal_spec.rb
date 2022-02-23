@@ -1,10 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Goal, type: :model do
-  before do
-    user  = create(:user)
-    @goal = create(:goal, user: user)
-  end
+  let(:user) { create(:user) }
+  let(:goal) { create(:goal, user: user) }
 
   describe 'associations' do
     it { should belong_to(:user) }
@@ -18,16 +16,16 @@ RSpec.describe Goal, type: :model do
 
   describe 'A goal' do
     it 'can be created by the user' do
-      expect(@goal).to be_valid
+      expect(goal).to be_valid
     end
 
     it 'has an owner (user who created it by default)' do
-      expect(@goal.user.owner).to eq('Who? Me?')
+      expect(goal.user.owner).to eq('Who? Me?')
     end
 
-    it 'has a title' do expect(@goal.title).to eq('Test my app') end
-    it 'has a start date' do expect(@goal.start_date).to eq('2022-02-02 02:22') end
-    it 'has an end date' do expect(@goal.end_date).to eq('2022-02-03 02:22') end
+    it 'has a title' do expect(goal.title).to eq('Test my app') end
+    it 'has a start date' do expect(goal.start_date).to eq('2022-02-02 02:22') end
+    it 'has an end date' do expect(goal.end_date).to eq('2022-02-03 02:22') end
   end
 
   describe 'progress is decided by the status of its key results' do

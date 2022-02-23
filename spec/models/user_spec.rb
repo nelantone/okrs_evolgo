@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  let(:user) { create(:user) }
+
   before do
-    @user = create(:user)
-    create(:goal, title: 'new goal 1', user: @user)
-    create(:goal, title: 'new goal 2', user: @user)
-    create(:goal, title: 'new goal 3', user: @user)
+    create(:goal, title: 'new goal 1', user: user)
+    create(:goal, title: 'new goal 2', user: user)
+    create(:goal, title: 'new goal 3', user: user)
   end
 
   describe 'association' do
@@ -19,7 +20,7 @@ RSpec.describe User, type: :model do
 
   describe 'A user' do
     it 'gets the list of all owned goals' do
-      expect(@user.goals.size).to eq(3)
+      expect(user.goals.size).to eq(3)
     end
   end
 end
