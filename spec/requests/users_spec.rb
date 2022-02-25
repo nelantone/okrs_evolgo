@@ -92,7 +92,6 @@ RSpec.describe 'Users', type: :request do
     end
   end
 
-
   # A a user I want to get the list of all goals that are owned by me
   describe 'GET /users/:user_id/goals' do
     before do
@@ -104,6 +103,18 @@ RSpec.describe 'Users', type: :request do
     let(:valid_user_attributes) do
       { user_id: 42,
         title: 'Secret of life owner' }
+    end
+    let(:new_user) { create(:user, owner: 'super user', id: 44) }
+    let(:goal_done) { create(:goal, user: new_user, id: 2) }
+    let(:new_valid_user_attributes) do
+      { user_id: new_user.id, title: 'super user' }
+    end
+
+    let(:new_user_id) { new_user.id }
+
+    before do
+      create(:key_result, goal: goal_done, user: new_user, status: 1, title: 'first goal done')
+      create(:key_result, goal: goal_done, user: new_user, status: 1, title: 'second goal done')
     end
 
     context 'when the user get the list of all own goals' do
@@ -119,34 +130,17 @@ RSpec.describe 'Users', type: :request do
         response_to_hash = JSON.parse(response.body)
         expect(response_to_hash.size).to eq(3)
       end
-
     end
-
-    let(:new_user) { create(:user, owner: 'super user', id: 44) }
-    let(:goal_done) { create(:goal, user: new_user, id: 2 ) }
-    before do
-      create(:key_result, goal: goal_done, user: new_user, status: 1, title: 'first goal done')
-      create(:key_result, goal: goal_done, user: new_user, status: 1, title: 'second goal done')
-    end
-    let(:new_valid_user_attributes) do
-      { user_id: new_user.id, title: 'super user'}
-    end
-    let(:new_user_id) { new_user.id }
 
     context 'when the user want to see the progress of the goals' do
-
       before do
-        debugger
         post "/users/#{new_user_id}/goals", params: new_valid_user_attributes
       end
 
       it 'returns only one goal with he correct progress as 100%' do
-
         response_to_hash = JSON.parse(response.body)
-        expect(response_to_hash[:progress]).to match('100%')
+        expect(response_to_hash.first['progress']).to eq('100%')
       end
-
-
     end
   end
 end

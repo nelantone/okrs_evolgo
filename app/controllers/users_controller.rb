@@ -36,6 +36,6 @@ class UsersController < ApplicationController
   end
 
   def update_progress
-    @user.goals.each { |goal| goal.update(progress: :progress ) }
+    @user.goals.each { |goal| goal.update(progress: :progress) }
   end
 end

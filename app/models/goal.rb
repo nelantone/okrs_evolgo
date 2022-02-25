@@ -5,9 +5,10 @@ class Goal < ApplicationRecord
   validates :title, :user, presence: true
 
   def progress
-    return 0 if key_results.empty?
+    return '0%' if key_results.empty?
 
-    count_complete_done_status / key_results.size
+    result = count_complete_done_status / key_results.size
+    "#{(result * 100).to_i}%"
   end
 
   private

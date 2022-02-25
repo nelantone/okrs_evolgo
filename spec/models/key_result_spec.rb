@@ -14,6 +14,16 @@ RSpec.describe KeyResult, type: :model do
     it { validate_presence_of(:status) }
   end
 
+  describe 'valid number for status' do
+    it 'is not a valid status' do
+      expect { create(:key_result, status: 0.7) }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'is a valid status' do
+      expect(create(:key_result, status: 0.5)).to be_valid
+    end
+  end
+
   describe 'A key-result' do
     it 'can be created by the user' do
       expect(key_result).to be_valid

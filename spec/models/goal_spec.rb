@@ -35,7 +35,7 @@ RSpec.describe Goal, type: :model do
 
       create(:key_result, goal: goal_done, user: user2, status: 1, title: 'first goal done')
       create(:key_result, goal: goal_done, user: user2, status: 1, title: 'second goal done')
-      expect(goal_done.progress).to eq(1.0)
+      expect(goal_done.progress).to eq('100%')
     end
 
     it 'has  2 key results and 1 is “completed” the progress is 50%' do
@@ -44,7 +44,7 @@ RSpec.describe Goal, type: :model do
 
       create(:key_result, goal: half_goal, user: user3, status: 1, title: 'first goal done')
       create(:key_result, goal: half_goal, user: user3, status: 0.5, title: 'second goal done')
-      expect(half_goal.progress).to eq(0.5)
+      expect(half_goal.progress).to eq('50%')
     end
 
     it 'has 2 key started results and none of them are completed the progress
@@ -54,7 +54,7 @@ RSpec.describe Goal, type: :model do
 
       create(:key_result, goal: non_done_goal, user: user4, status: 0.5, title: 'first goal done')
       create(:key_result, goal: non_done_goal, user: user4, status: 0.5, title: 'second goal done')
-      expect(non_done_goal.progress).to eq(0)
+      expect(non_done_goal.progress).to eq('0%')
     end
 
     it 'has 1 key started result and one non started. None of them are completed the progress
@@ -64,7 +64,7 @@ RSpec.describe Goal, type: :model do
 
       create(:key_result, goal: non_done_goal, user: user5, status: 0.5, title: 'first goal done')
       create(:key_result, goal: non_done_goal, user: user5, status: 0, title: 'second goal done')
-      expect(non_done_goal.progress).to eq(0)
+      expect(non_done_goal.progress).to eq('0%')
     end
 
     it 'is also considered zero percent, if a goal does not have any key
@@ -72,7 +72,7 @@ result associated with it.' do
       user6         = create(:user, owner: 'super user')
       non_done_goal = create(:goal, user: user6)
 
-      expect(non_done_goal.progress).to eq(0)
+      expect(non_done_goal.progress).to eq('0%')
     end
   end
 end
