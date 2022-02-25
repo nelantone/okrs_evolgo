@@ -15,10 +15,16 @@ class UsersController < ApplicationController
     json_response(@user, :created)
   end
 
+  # A a user I want to get the list of all goals that are owned by me
+  def goals
+    update_progress
+    json_response(@user.goals)
+  end
+
   private
 
   def goal_params
-    params.permit(:user_id, :title, :start_date, :end_date)
+    params.permit(:user_id, :title, :start_date, :end_date, :progress)
   end
 
   def key_results_params
@@ -27,5 +33,9 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.find(params[:user_id])
+  end
+
+  def update_progress
+    @user.goals.each { |goal| goal.update(progress: :progress ) }
   end
 end
