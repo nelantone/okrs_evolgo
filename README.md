@@ -181,9 +181,9 @@ Process with **PEDAC:**
   10. Add the RESTful routes and controller actions:
     - Story 1
     - Story 2
-    - Story 3 ** Pending!
+    - Story 3
 
-  11. ** Add jwt authentication for user?
+  11. Add jwt authentication for user? ** Pending!
     ``
 
 </details>
