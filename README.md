@@ -13,10 +13,6 @@ Ruby 3.0
 **Test:**
 `bundle exec rspec`
 
-**Rails server \*testing:**
-`rails s`
-`http://localhost:3000/`
-
 
 **Events handler:**
 `guard`
