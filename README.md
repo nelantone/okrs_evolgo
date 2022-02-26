@@ -24,14 +24,15 @@ Inside the project run `rails server`.
 In another console window also inside the project run:
 
 Test-endpoints for users:
-# POST /create/user
-$ http POST :3000/users owner=='some owner name'
-# POST /users/:id/create_goal
-$ http POST :3000/users/1/create_goal user_id==1 title=='what a tile'
-# POST /users/:id/goals/:goal_id/create_goal_key_result
-$ http POST :3000/users/1/goals/1/create_goal_key_result user_id==1 goal_id==1 title=='what a great title'
-# GET /users/:id/goals
-$ http GET :3000/users/1/goals user_id==1
+
+#### POST /create/user
+`$ http POST :3000/users owner=='some owner name'`
+#### POST /users/:id/create_goal
+`$ http POST :3000/users/1/create_goal user_id==1 title=='what a tile'`
+#### POST /users/:id/goals/:goal_id/create_goal_key_result
+`$ http POST :3000/users/1/goals/1/create_goal_key_result user_id==1 goal_id==1 title=='what a great title'`
+#### GET /users/:id/goals
+`$ http GET :3000/users/1/goals user_id==1`
 
 
 **Events handler:**
