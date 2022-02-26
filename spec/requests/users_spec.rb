@@ -4,6 +4,19 @@ RSpec.describe 'Users', type: :request do
   let!(:user)   { create(:user, id: 42) }
   let(:user_id) { user.id }
 
+  # To create a user.
+  describe 'POST users' do
+    let(:just_user_attributes) { { owner: 'just an user' } }
+
+    context 'when user can create a valid Goal' do
+      before { post '/users', params: just_user_attributes }
+
+      it 'returns status code 201' do
+        expect(response).to have_http_status(:created)
+      end
+    end
+  end
+
   # As a user I want to create a Goal.
   describe 'POST /users/:user_id/create_goal' do
     let(:valid_user_attributes) do
@@ -98,28 +111,40 @@ RSpec.describe 'Users', type: :request do
       create(:goal, title: 'new goal 1', user: user)
       create(:goal, title: 'new goal 2', user: user)
       create(:goal, title: 'new goal 3', user: user)
+
+      create(:key_result, goal: goal_done, user: new_user, status: 1.0, title: 'first goal done')
+      create(:key_result, goal: goal_done, user: new_user, status: 1.0, title: 'second goal done')
+
+      create(:key_result, goal: goal_done2, user: new_user2, status: 0.5, title: 'goal not done')
+      create(:key_result, goal: goal_done2, user: new_user2, status: 1.0, title: 'goal done')
+
+      create(:key_result, goal: goal_done3, user: new_user3, status: 0.5, title: 'goal not done')
+      create(:key_result, goal: goal_done3, user: new_user3, status: 0.0, title: 'goal not started')
     end
 
     let(:valid_user_attributes) do
       { user_id: 42,
         title: 'Secret of life owner' }
     end
-    let(:new_user) { create(:user, owner: 'super user', id: 44) }
-    let(:goal_done) { create(:goal, user: new_user, id: 2) }
-    let(:new_valid_user_attributes) do
-      { user_id: new_user.id, title: 'super user' }
-    end
 
+    let(:new_user) { create(:user, owner: 'super user', id: 45) }
     let(:new_user_id) { new_user.id }
+    let(:goal_done) { create(:goal, user: new_user, id: 7) }
+    let(:new_valid_user_attributes) { { user_id: new_user_id, title: 'super user' } }
 
-    before do
-      create(:key_result, goal: goal_done, user: new_user, status: 1, title: 'first goal done')
-      create(:key_result, goal: goal_done, user: new_user, status: 1, title: 'second goal done')
-    end
+    let(:new_user2) { create(:user, owner: 'super user', id: 46) }
+    let(:new_user2_id) { new_user2.id }
+    let(:goal_done2) { create(:goal, user: new_user2, id: 8) }
+    let(:new_valid_user_attributes2) { { user_id: new_user2_id, title: 'super user' } }
+
+    let(:new_user3) { create(:user, owner: 'super user', id: 47) }
+    let(:new_user3_id) { new_user3.id }
+    let(:goal_done3) { create(:goal, user: new_user3, id: 9) }
+    let(:new_valid_user_attributes3) { { user_id: new_user3_id, title: 'super user' } }
 
     context 'when the user get the list of all own goals' do
       before do
-        post "/users/#{user_id}/goals", params: valid_user_attributes
+        get "/users/#{user_id}/goals", params: valid_user_attributes
       end
 
       it 'returns status code 201' do
@@ -132,14 +157,36 @@ RSpec.describe 'Users', type: :request do
       end
     end
 
-    context 'when the user want to see the progress of the goals' do
+    context 'when the user want to see the progress of the goals and is 100%' do
       before do
-        post "/users/#{new_user_id}/goals", params: new_valid_user_attributes
+        get "/users/#{new_user_id}/goals", params: new_valid_user_attributes
       end
 
-      it 'returns only one goal with he correct progress as 100%' do
+      it 'returns only one goal with 100% progress' do
         response_to_hash = JSON.parse(response.body)
         expect(response_to_hash.first['progress']).to eq('100%')
+      end
+    end
+
+    context 'when the user want to see the progress of the goals and is 50%' do
+      before do
+        get "/users/#{new_user2_id}/goals", params: new_valid_user_attributes2
+      end
+
+      it 'returns only one goal with 50% progress' do
+        response_to_hash = JSON.parse(response.body)
+        expect(response_to_hash.first['progress']).to eq('50%')
+      end
+    end
+
+    context 'when the user want to see the progress of the goals and is 0%' do
+      before do
+        get "/users/#{new_user3_id}/goals", params: new_valid_user_attributes3
+      end
+
+      it 'returns only one goal with 0% progress' do
+        response_to_hash = JSON.parse(response.body)
+        expect(response_to_hash.first['progress']).to eq('0%')
       end
     end
   end

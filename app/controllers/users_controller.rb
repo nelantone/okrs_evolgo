@@ -1,5 +1,11 @@
 class UsersController < ApplicationController
-  before_action :set_user
+  before_action :set_user, except: [:create]
+  skip_before_action :verify_authenticity_token
+
+  def create
+    @user = User.create!(user_params)
+    json_response(@user, :created)
+  end
 
   # As a user I want to create a Goal.
   def create_goal
@@ -22,6 +28,10 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def user_params
+    params.permit(:owner)
+  end
 
   def goal_params
     params.permit(:user_id, :title, :start_date, :end_date, :progress)

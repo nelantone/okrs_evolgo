@@ -13,6 +13,26 @@ Ruby 3.0
 **Test:**
 `bundle exec rspec`
 
+**Instructions for http request/endpoints and run the project:**
+
+Using for example [httpie](https://httpie.io/) as HTTP client.
+For mac:
+`brew install httpie`
+
+Inside the project run `rails server`.
+
+In another console window also inside the project run:
+
+Test-endpoints for users:
+# POST /create/user
+$ http POST :3000/users owner=='some owner name'
+# POST /users/:id/create_goal
+$ http POST :3000/users/1/create_goal user_id==1 title=='what a tile'
+# POST /users/:id/goals/:goal_id/create_goal_key_result
+$ http POST :3000/users/1/goals/1/create_goal_key_result user_id==1 goal_id==1 title=='what a great title'
+# GET /users/:id/goals
+$ http GET :3000/users/1/goals user_id==1
+
 
 **Events handler:**
 `guard`
@@ -179,7 +199,13 @@ Process with **PEDAC:**
     - Story 2
     - Story 3
 
-  11. Add jwt authentication for user? ** Pending!
+  11. Add instructions for http request/endpoints and run the project:
+
+  12. - Add jwt authentication for user?
+      - Think about how to fix endpints whithout passing user_id as params(we have already the ids on the route)
+      - add symboles related to status number and test it {not_started:0.0, in_progress:0.5, completed:1.0}
+
+  ** 12 is Pending!
     ``
 
 </details>
